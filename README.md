@@ -1,0 +1,2 @@
+# react_microservice_sample
+フロントはReact、バックエンドはfastifyでマイクロサービスのサンプルを作りたいリポジトリ
