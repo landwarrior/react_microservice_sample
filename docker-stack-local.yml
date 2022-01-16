@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  node-frontend:
+    image: frontend_test:latest
+    ports:
+      - 80:3000
+    deploy:
+      mode: global
+
+  node-backend:
+    image: backend_test:latest
+    ports:
+      - 3000:3000
+    volumes:
+      - /vagrant/backend:/var/temp/backend
+    deploy:
+      mode: global
+
+  mysql-test:
+    image: mysql_test:latest
+    ports:
+      - 3306:3306
+    deploy:
+      mode: global
