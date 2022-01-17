@@ -11,20 +11,21 @@ Windows11でVagrantを使ってAlmaLinuxを立ち上げた上で、Dockerを使�
 1. `cd /vagrant` でディレクトリを移動し、ファイルが見れることを確認する
 1. `./provisioning.sh` を実行し、初期構築する
 
-mysql の docker 起動と init.sql の実行。  
-init.sql をコンテナの外から実行したらうまくいかなかったので、コンテナ内に送り込んでコンテナ内で実行するようにしています。
+mysql の docker イメージ作成。
 
 1. `cd /vagrant/mysql`
 1. `docker build -t mysql_test .`
 
-単独でコンテナ起動するとき
+コンテナの単独起動と init.sql の実行。  
+init.sql をコンテナの外から実行したらうまくいかなかったので、コンテナ内に送り込んでコンテナ内で実行するようにしています。
 
 1. `docker run -d --rm -p3306:3306 --name mysql_test mysql_test`
 1. `docker exec -it mysql_test /bin/bash`
 1. `mysql -uroot -proot < /var/sql/init.sql`
 1. `exit`
 
-backend の docker イメージ作成。
+backend の docker イメージ作成。  
+既存 DB に対する構築方法が出来ておらず、今はまだ ENTRYPOINT の設定により `prisma migrate` で DB やテーブルを構築するようにしている。
 
 1. `cd /vagrant/backend`
 1. `docker build -t backend_test .`
@@ -34,7 +35,8 @@ frontend の docker イメージ作成。
 1. `cd /vagrant/frontend`
 1. `docker build -t frontend_test .`
 
-Docker Swarm 初期化
+Docker Swarm 初期化。  
+Vagrantfile で VM の IP アドレスを `192.168.33.70` にしているので以下のようになる
 
 ```
 docker swarm init --advertise-addr 192.168.33.70
