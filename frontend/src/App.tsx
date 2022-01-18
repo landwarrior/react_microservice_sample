@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useFetchUsers } from './hooks/useFetchUsers'
 
-function App() {
+export const App = () => {
+  // カスタムフックの使用
+  // 関数を実行し返却値を分割代入で受け取る
+  const { userList, isLoading, isError, onClickFetchUser } = useFetchUsers()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <button onClick={onClickFetchUser}>ユーザー取得</button>
+      {/* エラーの場合はエラーメッセージを表示 */}
+      {isError && <p style={{ color: 'red' }}>エラーが発生しました</p>}
+      {/* ローディング中は表示を切り替える */}
+      {isLoading ? (
+        <p>データ取得中です</p>
+      ) : (
+        userList.map((user) => (
+          <p key={user.user_id}>
+            {user.user_id} : {user.user_name} ({user.age}歳)
+            <br />{user.hobby}
+            <br />{user.job}
+          </p>
+        ))
+      )}
     </div>
-  );
+  )
 }
-
-export default App;
