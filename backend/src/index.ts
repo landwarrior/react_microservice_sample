@@ -1,7 +1,7 @@
 import Fastify, { FastifyInstance, RouteShorthandOptions } from 'fastify'
 import { Server, IncomingMessage, ServerResponse } from 'http'
-import { main, create, prisma } from './users'
-import type { putData } from './users'
+import { main, create, update, prisma } from './users'
+import type { putData, postData } from './users'
 
 const server: FastifyInstance = Fastify({})
 
@@ -34,9 +34,6 @@ const putBodyJsonSchema = S.object()
   .prop('hobby', S.string())
   .prop('job', S.string())
 
-// const putParamsJsonSchema = S.object()
-// .prop()
-
 const putHeadersJsonSchema = S.object().prop(
   'login-user',
   S.string().required()
@@ -55,17 +52,42 @@ server.put<{ Body: putData }>(
     console.log(request.params)
     console.log(request.headers)
     console.log(request.query)
-    create(request.body)
+    const ng = await create(request.body)
+    if (ng != null) {
+      return { code: 400, message: ng }
+    }
     return { code: 200, message: 'ok' }
   }
 )
 
-server.post('/users/:user_id', async (request, reply) => {
-  console.log(request.body)
-  console.log(request.params)
-  console.log(request.headers)
-  console.log(request.query)
-})
+const postBodyJsonSchema = S.object()
+  .prop('user_name', S.string().required())
+  .prop('age', S.number())
+  .prop('sex', S.string())
+  .prop('hobby', S.string())
+  .prop('job', S.string())
+
+const postSchema = {
+  body: postBodyJsonSchema,
+  headers: putHeadersJsonSchema,
+  params: S.object().prop('user_id', S.integer()),
+}
+
+server.post<{ Body: postData; Params: { user_id: number } }>(
+  '/users/:user_id',
+  { schema: postSchema },
+  async (request, reply) => {
+    console.log(request.body)
+    console.log(request.params)
+    console.log(request.headers)
+    console.log(request.query)
+    const ng = await update(request.params.user_id, request.body)
+    if (ng != null) {
+      return { code: 400, message: ng }
+    }
+    return { code: 200, message: 'ok' }
+  }
+)
 
 const start = async () => {
   try {

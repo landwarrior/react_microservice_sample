@@ -47,3 +47,23 @@ Docker Swarm サービス起動
 ```
 docker stack deploy --with-registry-auth -c /vagrant/docker-stack-local.yml test
 ```
+
+### バックエンドAPIの使い方
+
+データ検索
+
+```
+curl http://192.168.33.70:3000/users
+```
+
+データ登録
+
+```
+curl http://192.168.33.70:3000/users -XPUT -H"content-type:application/json" -H"login-user: hoge" -d'{"user_id": 1, "user_name": "hoge", "sex": "male", "job": "hogehoge"}'
+```
+
+データ更新
+
+```
+curl http://192.168.33.70:3000/users/1 -XPOST -H"content-type:application/json" -H"login-user: hoge" -d'{"user_name": "fuga", "sex": "male", "job": "fugafuga"}'
+```
