@@ -1,7 +1,8 @@
 import Fastify, { FastifyInstance, RouteShorthandOptions } from 'fastify'
 import { Server, IncomingMessage, ServerResponse } from 'http'
-import { main, create, update, prisma } from './users'
-import type { putData, postData } from './users'
+import { main, create, update, prisma } from './db/users'
+import type { PostData } from './types/PostData'
+import type { PutData } from './types/PutData'
 
 const server: FastifyInstance = Fastify({})
 
@@ -44,7 +45,7 @@ const putSchema = {
   headers: putHeadersJsonSchema,
 }
 
-server.put<{ Body: putData }>(
+server.put<{ Body: PutData }>(
   '/users',
   { schema: putSchema },
   async (request, reply) => {
@@ -73,7 +74,7 @@ const postSchema = {
   params: S.object().prop('user_id', S.integer()),
 }
 
-server.post<{ Body: postData; Params: { user_id: number } }>(
+server.post<{ Body: PostData; Params: { user_id: number } }>(
   '/users/:user_id',
   { schema: postSchema },
   async (request, reply) => {

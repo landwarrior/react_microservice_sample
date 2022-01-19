@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
+import type { PostData } from '../types/PostData'
+import type { PutData } from '../types/PutData'
 
 export const prisma = new PrismaClient()
 
@@ -11,16 +13,7 @@ export async function main() {
   return allUsers
 }
 
-export type putData = {
-  user_id: number
-  user_name: string
-  age?: number
-  sex?: string
-  hobby?: string
-  job?: string
-}
-
-export async function create(data: putData) {
+export async function create(data: PutData) {
   if (data != null) {
     try {
       await prisma.users.create({ data })
@@ -34,20 +27,12 @@ export async function create(data: putData) {
   }
 }
 
-export type postData = {
-  user_name: string
-  age?: number
-  sex?: string
-  hobby?: string
-  job?: string
-}
-
-export async function update(user_id: number, data: postData) {
+export async function update(user_id: number, data: PostData) {
   if (data != null) {
     try {
       await prisma.users.update({
         where: { user_id },
-        data
+        data,
       })
     } catch (e) {
       console.log(e)
