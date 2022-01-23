@@ -14,11 +14,9 @@ export const useFetchUsers = () => {
     // ボタン押下時にローディングフラグ on、エラーフラグ off
     setIsLoading(true)
     setIsError(false)
-    // ログが出ないから確認できない
-    console.log('hogehoge')
     // API の実行（コンテナ内に入って curl でアクセスするとデータ取得できるのにエラーになる）
     axios
-      .get('http://node-backend:3000/users')
+      .get('/users')
       .then((result) => {
         console.log(result)
         // 苗字と名前を統合するように変換
