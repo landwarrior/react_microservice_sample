@@ -1,3 +1,4 @@
+import Button from '@mui/material/Button'
 import { useFetchUsers } from './hooks/useFetchUsers'
 
 export const App = () => {
@@ -7,7 +8,7 @@ export const App = () => {
 
   return (
     <div>
-      <button onClick={onClickFetchUser}>ユーザー取得</button>
+      <Button variant="contained" onClick={onClickFetchUser}>ユーザー取得</Button>
       {/* エラーの場合はエラーメッセージを表示 */}
       {isError && <p style={{ color: 'red' }}>エラーが発生しました</p>}
       {/* ローディング中は表示を切り替える */}
