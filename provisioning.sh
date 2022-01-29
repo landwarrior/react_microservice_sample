@@ -16,7 +16,7 @@ fi
 
 # Docker インストール
 if ! [[ $(rpm -qa | grep docker) ]] ; then
-    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
     echo "  - dnf install docker-ce docker-ce-cli containerd.io"
     sudo dnf install -y docker-ce docker-ce-cli containerd.io
     sleep 10s
