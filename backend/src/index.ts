@@ -11,7 +11,7 @@ const S = require('fluent-json-schema')
 server.get('/', async (request, reply) => {
   return { hello: 'world!' }
 })
-
+// データ参照
 server.get('/users', async (request, reply) => {
   console.log(request.body)
   console.log(request.params)
@@ -44,8 +44,8 @@ const putSchema = {
   body: putBodyJsonSchema,
   headers: putHeadersJsonSchema,
 }
-
-server.put<{ Body: PutData }>(
+// データ登録
+server.post<{ Body: PostData }>(
   '/users',
   { schema: putSchema },
   async (request, reply) => {
@@ -73,8 +73,8 @@ const postSchema = {
   headers: putHeadersJsonSchema,
   params: S.object().prop('user_id', S.integer()),
 }
-
-server.post<{ Body: PostData; Params: { user_id: number } }>(
+// データ更新
+server.put<{ Body: PutData; Params: { user_id: number } }>(
   '/users/:user_id',
   { schema: postSchema },
   async (request, reply) => {

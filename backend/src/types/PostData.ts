@@ -1,4 +1,5 @@
 export type PostData = {
+  user_id: number
   user_name: string
   age?: number
   sex?: string

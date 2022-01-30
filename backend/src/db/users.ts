@@ -13,7 +13,7 @@ export async function main() {
   return allUsers
 }
 
-export async function create(data: PutData) {
+export async function create(data: PostData) {
   if (data != null) {
     try {
       await prisma.users.create({ data })
@@ -23,11 +23,13 @@ export async function create(data: PutData) {
         return e.meta
       }
       return 'ng'
+    } finally {
+      await prisma.$disconnect()
     }
   }
 }
 
-export async function update(user_id: number, data: PostData) {
+export async function update(user_id: number, data: PutData) {
   if (data != null) {
     try {
       await prisma.users.update({
@@ -40,6 +42,8 @@ export async function update(user_id: number, data: PostData) {
         return e.meta
       }
       return 'ng'
+    } finally {
+      await prisma.$disconnect()
     }
   }
 }
