@@ -47,3 +47,18 @@ export async function update(user_id: number, data: PutData) {
     }
   }
 }
+
+export async function deleteData(user_id: number) {
+  try {
+    await prisma.users.delete({
+      where: { user_id }
+    })
+  } catch (e) {
+    console.log(e)
+    if (e instanceof PrismaClientKnownRequestError) {
+      return e.meta
+    }
+  } finally {
+    await prisma.$disconnect()
+  }
+}

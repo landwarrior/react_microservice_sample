@@ -1,6 +1,6 @@
 import Fastify, { FastifyInstance, RouteShorthandOptions } from 'fastify'
 import { Server, IncomingMessage, ServerResponse } from 'http'
-import { main, create, update, prisma } from './db/users'
+import { main, create, update, deleteData, prisma } from './db/users'
 import type { PostData } from './types/PostData'
 import type { PutData } from './types/PutData'
 
@@ -83,6 +83,21 @@ server.put<{ Body: PutData; Params: { user_id: number } }>(
     console.log(request.headers)
     console.log(request.query)
     const ng = await update(request.params.user_id, request.body)
+    if (ng != null) {
+      return { code: 400, message: ng }
+    }
+    return { code: 200, message: 'ok' }
+  }
+)
+// データ削除
+server.delete<{ Params: { user_id: number } }>(
+  '/users/:user_id',
+  async (request, reply) => {
+    console.log(request.body)
+    console.log(request.params)
+    console.log(request.headers)
+    console.log(request.query)
+    const ng = await deleteData(request.params.user_id)
     if (ng != null) {
       return { code: 400, message: ng }
     }
