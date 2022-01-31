@@ -8,6 +8,7 @@ Windows11でVagrantを使ってAlmaLinuxを立ち上げた上で、Dockerを使�
 
 1. コマンドプロンプトを立ち上げ、カレントディレクトリに Vagrantfile がある状態にして `vagrant up` する
 1. `vagrant ssh` で AlmaLinux にログインする
+1. `sudo su` で root ユーザに切り替えておく
 1. `cd /vagrant` でディレクトリを移動し、ファイルが見れることを確認する
 1. `./provisioning.sh` を実行し、初期構築する
 
@@ -59,11 +60,11 @@ curl http://192.168.33.70:3000/users
 データ登録
 
 ```
-curl http://192.168.33.70:3000/users -XPUT -H"content-type:application/json" -H"login-user: hoge" -d'{"user_id": 1, "user_name": "hoge", "sex": "male", "job": "hogehoge"}'
+curl http://192.168.33.70:3000/users -XPOST -H"content-type:application/json" -H"login-user: hoge" -d'{"user_id": 1, "user_name": "hoge", "sex": "male", "job": "hogehoge"}'
 ```
 
 データ更新
 
 ```
-curl http://192.168.33.70:3000/users/1 -XPOST -H"content-type:application/json" -H"login-user: hoge" -d'{"user_name": "fuga", "sex": "male", "job": "fugafuga"}'
+curl http://192.168.33.70:3000/users/1 -XPUT -H"content-type:application/json" -H"login-user: hoge" -d'{"user_name": "fuga", "sex": "male", "job": "fugafuga"}'
 ```
