@@ -7,10 +7,10 @@ export const prisma = new PrismaClient()
 
 // A `main` function so that you can use async/await
 export async function main() {
-  const allUsers = await prisma.users.findMany({
+  const users = await prisma.users.findMany({
     // include: { posts: true },
   })
-  return allUsers
+  return users
 }
 
 export async function create(data: PostData) {

@@ -20,6 +20,6 @@ if ! [[ $(rpm -qa | grep docker) ]] ; then
     echo "  - dnf install docker-ce docker-ce-cli containerd.io"
     sudo dnf install -y docker-ce docker-ce-cli containerd.io
     sleep 10s
-    systemctl start docker
-    systemctl enable docker
+    sudo systemctl start docker
+    sudo systemctl enable docker
 fi

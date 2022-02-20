@@ -12,15 +12,9 @@ Windows11でVagrantを使ってAlmaLinuxを立ち上げた上で、Dockerを使�
 1. `cd /vagrant` でディレクトリを移動し、ファイルが見れることを確認する
 1. `./provisioning.sh` を実行し、初期構築する
 
-mysql の docker イメージ作成。
-
-1. `cd /vagrant/mysql`
-1. `docker build -t mysql_test .`
-
 コンテナの単独起動と init.sql の実行。  
-init.sql をコンテナの外から実行したらうまくいかなかったので、コンテナ内に送り込んでコンテナ内で実行するようにしています。
 
-1. `docker run -d --rm -p3306:3306 --name mysql_test mysql_test`
+1. `docker run -d --rm -e MYSQL_ROOT_PASSWORD=root -p3306:3306 -v /vagrant/mysql/init.sql:/var/sql/init.sql --name mysql_test mysql:8.0 mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci`
 1. `docker exec -it mysql_test /bin/bash`
 1. `mysql -uroot -proot < /var/sql/init.sql`
 1. `exit`

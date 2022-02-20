@@ -18,8 +18,16 @@ services:
       mode: global
 
   mysql-test:
-    image: mysql_test:latest
+    image: mysql:8.0
+    volumes:
+      - /var/mysql/data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=test
     ports:
       - 3306:3306
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     deploy:
       mode: global

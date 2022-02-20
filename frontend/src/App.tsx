@@ -1,7 +1,8 @@
 import Button from '@mui/material/Button'
+import { VFC } from 'react'
 import { useFetchUsers } from './hooks/useFetchUsers'
 
-export const App = () => {
+export const App: VFC = () => {
   // カスタムフックの使用
   // 関数を実行し返却値を分割代入で受け取る
   const { userList, isLoading, isError, onClickFetchUser } = useFetchUsers()
